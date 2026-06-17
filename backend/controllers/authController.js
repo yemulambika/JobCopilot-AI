@@ -7,15 +7,20 @@ const jwt = require("jsonwebtoken");
 const REFRESH_COOKIE = "refreshToken";
 const REFRESH_DAYS = 7;
 
-function sendTokens(res, user, accessToken) {
+async function sendTokens(res, user, accessToken) {
   const refreshToken = user.generateRefreshToken();
 
-  // Store refresh token in DB
-  RefreshToken.create({
-    user: user._id,
-    token: refreshToken,
-    expiresAt: new Date(Date.now() + REFRESH_DAYS * 24 * 60 * 60 * 1000),
-  });
+  // Store refresh token in DB (upsert to avoid duplicate key errors)
+  await RefreshToken.findOneAndUpdate(
+    { token: refreshToken },
+    {
+      user: user._id,
+      token: refreshToken,
+      expiresAt: new Date(Date.now() + REFRESH_DAYS * 24 * 60 * 60 * 1000),
+      isRevoked: false,
+    },
+    { upsert: true, new: true }
+  );
 
   // Also save on user document for quick lookup
   user.refreshToken = refreshToken;
