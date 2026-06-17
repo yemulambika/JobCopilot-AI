@@ -4,7 +4,7 @@
  * Never scrapes or auto‑navigates.
  */
 
-const API_BASE = "https://ai-resume-backend-1i32.onrender.com/api";
+const API_BASE = "https://jobcopilot-ai.onrender.com/api";
 
 // Retrieve stored JWT
 async function getToken() {
