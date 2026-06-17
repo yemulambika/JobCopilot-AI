@@ -43,6 +43,7 @@ app.use(
       "http://localhost:3000",
       "https://your-vercel-app.vercel.app",
       "https://ai-resume-maker-ashen.vercel.app",
+      "https://ai-resume-backend-1i32.onrender.com",
     ],
     credentials: true,
   })
