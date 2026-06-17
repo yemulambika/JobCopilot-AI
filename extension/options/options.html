@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>AI Resume Matcher - Extension Settings</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #0f172a; color: #e2e8f0; padding: 40px; min-height: 100vh; }
+    .container { max-width: 540px; margin: 0 auto; }
+    h1 { font-size: 28px; font-weight: bold; color: #22d3ee; margin-bottom: 8px; }
+    .subtitle { color: #94a3b8; font-size: 14px; margin-bottom: 30px; }
+    .section { margin-bottom: 28px; background: #1e293b; border-radius: 12px; padding: 20px; }
+    .section h2 { font-size: 16px; font-weight: 600; color: #22d3ee; margin-bottom: 14px; }
+    label { display: block; font-size: 13px; font-weight: 500; color: #94a3b8; margin-bottom: 6px; }
+    input, textarea {
+      width: 100%; padding: 10px 14px; background: #0f172a; border: 1px solid #475569;
+      border-radius: 8px; color: #e2e8f0; font-size: 14px; margin-bottom: 12px;
+    }
+    input:focus, textarea:focus { outline: none; border-color: #22d3ee; }
+    textarea { height: 140px; resize: vertical; font-size: 13px; line-height: 1.5; }
+    .btn {
+      display: inline-block; padding: 10px 20px; border: none; border-radius: 8px;
+      font-size: 14px; font-weight: 600; cursor: pointer;
+    }
+    .btn-primary { background: #22d3ee; color: #0f172a; }
+    .btn-primary:hover { background: #06b6d4; }
+    .btn-danger { background: #ef4444; color: #fff; }
+    .btn-danger:hover { background: #dc2626; }
+    .status { margin-top: 10px; font-size: 13px; color: #10b981; display: none; }
+    .hint { font-size: 11px; color: #64748b; margin-top: -8px; margin-bottom: 12px; }
+    .info-box {
+      background: #0f172a; border: 1px solid #334155; border-radius: 8px;
+      padding: 12px; margin-bottom: 12px; font-size: 12px; line-height: 1.5; color: #94a3b8;
+    }
+    .info-box strong { color: #22d3ee; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎯 AI Resume Matcher</h1>
+    <p class="subtitle">Chrome Extension Settings</p>
+
+    <div class="section">
+      <h2>Backend Connection</h2>
+      <label>API URL</label>
+      <input type="text" id="apiUrl" placeholder="http://localhost:5000/api" />
+      <p class="hint">Your MERN backend URL (default: http://localhost:5000/api)</p>
+
+      <label>Auth Token (optional)</label>
+      <input type="text" id="authToken" placeholder="JWT token from the app" />
+      <p class="hint">JWT token from the app to save jobs to your account</p>
+    </div>
+
+    <div class="section">
+      <h2>Autofill Profile</h2>
+      <label>Full Name</label>
+      <input type="text" id="pf-name" placeholder="John Doe" />
+
+      <label>Email</label>
+      <input type="email" id="pf-email" placeholder="john@example.com" />
+
+      <label>Phone</label>
+      <input type="tel" id="pf-phone" placeholder="+1 (555) 123-4567" />
+
+      <label>Location</label>
+      <input type="text" id="pf-location" placeholder="San Francisco, CA" />
+
+      <label>LinkedIn URL</label>
+      <input type="url" id="pf-linkedin" placeholder="https://linkedin.com/in/johndoe" />
+
+      <label>Portfolio / Website</label>
+      <input type="url" id="pf-portfolio" placeholder="https://johndoe.com" />
+
+      <label>Additional Notes</label>
+      <textarea id="pf-notes" placeholder="Any notes you want saved..." style="height:60px;"></textarea>
+    </div>
+
+    <div class="section">
+      <h2>Resume Text (for AI Q&A)</h2>
+      <div class="info-box">
+        <strong>Why is this needed?</strong> When generating answers to job application questions
+        (like "Why should we hire you?"), the AI uses your resume text to create personalized,
+        honest, and context-aware answers. Paste a plain text version of your resume below.
+      </div>
+      <label>Paste Resume Text</label>
+      <textarea id="resumeText" rows="10" placeholder="Paste your resume text here (plain text, not formatted).&#10;&#10;Example:&#10;&#10;John Doe | Software Engineer&#10;Exp: 5 years in MERN stack&#10;Skills: React, Node.js, MongoDB, TypeScript&#10;..."></textarea>
+      <p class="hint">This is stored locally in your browser and sent only to your backend when generating AI answers.</p>
+    </div>
+
+    <div style="display:flex;gap:12px">
+      <button class="btn btn-primary" id="btn-save">💾 Save Settings</button>
+      <button class="btn btn-danger" id="btn-clear">🗑 Clear Profile</button>
+    </div>
+
+    <div class="status" id="status-msg">Settings saved!</div>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>

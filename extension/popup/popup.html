@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      width: 400px;
+      min-height: 500px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+      padding: 16px;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #334155;
+    }
+    .header h1 { font-size: 18px; font-weight: bold; color: #22d3ee; }
+    .header p { font-size: 11px; color: #94a3b8; margin-top: 4px; }
+    .section { margin-bottom: 14px; }
+    .section-title {
+      font-size: 12px; font-weight: 600; color: #94a3b8;
+      text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px;
+    }
+    .job-info { background: #1e293b; border-radius: 8px; padding: 10px; }
+    .job-info .label { color: #64748b; font-size: 10px; text-transform: uppercase; }
+    .job-info .value { margin-top: 2px; color: #e2e8f0; font-size: 13px; }
+    .job-info .row { margin-bottom: 8px; }
+    .skills-container { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
+    .skill-tag {
+      background: #164e63; color: #22d3ee; border: 1px solid #22d3ee;
+      padding: 2px 8px; border-radius: 12px; font-size: 10px; font-weight: 500;
+    }
+    textarea {
+      width: 100%; background: #1e293b;
+      border: 1px solid #475569; border-radius: 8px; color: #e2e8f0;
+      padding: 8px; font-size: 12px; resize: vertical;
+    }
+    textarea:focus { outline: none; border-color: #22d3ee; }
+    input[type="text"], input[type="email"], input[type="tel"] {
+      width: 100%; padding: 6px 10px; background: #1e293b;
+      border: 1px solid #475569; border-radius: 6px; color: #e2e8f0;
+      font-size: 12px; margin-bottom: 6px;
+    }
+    input:focus { outline: none; border-color: #22d3ee; }
+    .btn {
+      display: block; width: 100%; padding: 10px; border: none;
+      border-radius: 8px; font-size: 13px; font-weight: 600;
+      cursor: pointer; transition: background 0.2s; text-align: center;
+    }
+    .btn-primary { background: #22d3ee; color: #0f172a; }
+    .btn-primary:hover { background: #06b6d4; }
+    .btn-secondary { background: #334155; color: #e2e8f0; border: 1px solid #475569; }
+    .btn-secondary:hover { background: #475569; }
+    .btn-success { background: #10b981; color: #fff; }
+    .btn-success:hover { background: #059669; }
+    .btn-copy { background: #7c3aed; color: #fff; font-size: 11px; padding: 6px 12px; width: auto; }
+    .btn-copy:hover { background: #6d28d9; }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-group { display: flex; gap: 8px; margin-top: 8px; }
+    .btn-group .btn { flex: 1; }
+    .error-msg { color: #ef4444; font-size: 11px; margin-top: 6px; }
+    .success-msg { color: #10b981; font-size: 11px; margin-top: 6px; }
+    .supported { font-size: 10px; color: #64748b; text-align: center; margin-top: 8px; }
+    .supported span { color: #22d3ee; }
+    .qa-section { background: #1e293b; border-radius: 8px; padding: 12px; }
+    .qa-presets { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 8px; }
+    .qa-preset {
+      background: #334155; border: 1px solid #475569; border-radius: 6px;
+      padding: 4px 8px; font-size: 10px; color: #94a3b8; cursor: pointer;
+      transition: all 0.15s;
+    }
+    .qa-preset:hover { background: #475569; color: #e2e8f0; border-color: #22d3ee; }
+    .qa-answer {
+      background: #0f172a; border: 1px solid #22d3ee; border-radius: 8px;
+      padding: 10px; font-size: 12px; line-height: 1.5; color: #e2e8f0;
+      white-space: pre-wrap; max-height: 200px; overflow-y: auto;
+      margin-top: 8px; display: none;
+    }
+    .qa-actions { display: flex; gap: 8px; margin-top: 8px; display: none; }
+    .qa-actions .btn { flex: 1; padding: 7px; font-size: 11px; }
+    .divider { border-top: 1px solid #334155; margin: 14px 0; }
+    .collapsible-header {
+      cursor: pointer; user-select: none; display: flex;
+      align-items: center; justify-content: space-between;
+    }
+    .collapsible-header::after { content: "▼"; font-size: 10px; color: #64748b; }
+    .collapsible-header.open::after { content: "▲"; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>🎯 AI Resume Matcher</h1>
+    <p>Job Detection, Q&A & Autofill</p>
+  </div>
+
+  <div id="main-content">
+    <!-- Current Page Info -->
+    <div class="section">
+      <div class="section-title">Current Page</div>
+      <div class="job-info">
+        <div class="row">
+          <div class="label">Platform</div>
+          <div class="value" id="platform">Checking...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Detected Job -->
+    <div id="detected-job" class="section" style="display:none">
+      <div class="section-title">Detected Job</div>
+      <div class="job-info">
+        <div class="row">
+          <div class="label">Company</div>
+          <div class="value" id="company">—</div>
+        </div>
+        <div class="row">
+          <div class="label">Role</div>
+          <div class="value" id="role">—</div>
+        </div>
+        <div class="row" style="margin-bottom:4px">
+          <div class="label">Skills Found (<span id="skills-count">0</span>)</div>
+          <div class="skills-container" id="skills-list"></div>
+        </div>
+        <div class="row" style="margin-bottom:0">
+          <div class="label">Description</div>
+          <div class="value" id="description-preview" style="font-size:11px;color:#94a3b8;max-height:50px;overflow:hidden;text-overflow:ellipsis;">—</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="error-box" class="error-msg" style="display:none"></div>
+    <div id="success-box" class="success-msg" style="display:none"></div>
+
+    <div class="btn-group">
+      <button class="btn btn-primary" id="btn-extract">🔍 Extract JD</button>
+      <button class="btn btn-success" id="btn-save" style="display:none" disabled>💾 Save to Jobs</button>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- AI Question Answer Generator -->
+    <div class="section">
+      <div class="section-title collapsible-header" id="qa-header">🤖 AI Q&A Helper</div>
+      <div class="qa-section" id="qa-body">
+        <div class="qa-presets">
+          <span class="qa-preset" data-q="Why should we hire you?">Why should we hire you?</span>
+          <span class="qa-preset" data-q="Tell us about yourself.">Tell me about yourself</span>
+          <span class="qa-preset" data-q="Why do you want to work at this company?">Why this company?</span>
+          <span class="qa-preset" data-q="What is your greatest strength?">Greatest strength</span>
+          <span class="qa-preset" data-q="What is your greatest weakness?">Greatest weakness</span>
+          <span class="qa-preset" data-q="Describe a challenging project you worked on.">Challenging project</span>
+          <span class="qa-preset" data-q="Why are you leaving your current role?">Why leaving current?</span>
+          <span class="qa-preset" data-q="Where do you see yourself in 5 years?">5-year goal</span>
+        </div>
+        <textarea id="qa-question" rows="2" placeholder="Type or select a question above..." style="height:50px;margin-bottom:8px;"></textarea>
+        <button class="btn btn-primary" id="btn-ask" disabled>✨ Generate Answer</button>
+        <div class="qa-answer" id="qa-answer"></div>
+        <div class="qa-actions" id="qa-actions">
+          <button class="btn btn-copy" id="btn-copy-answer">📋 Copy</button>
+          <button class="btn btn-success" id="btn-insert-answer">✏️ Insert into Form</button>
+          <button class="btn btn-secondary" id="btn-retry">🔄 Regenerate</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Quick Autofill Profile -->
+    <div class="section">
+      <div class="section-title collapsible-header" id="profile-header">👤 Autofill Profile</div>
+      <div id="profile-body">
+        <input type="text" id="pf-name" placeholder="Full Name" />
+        <input type="email" id="pf-email" placeholder="Email" />
+        <input type="tel" id="pf-phone" placeholder="Phone" />
+        <textarea id="pf-cover" placeholder="Cover letter intro..." rows="2" style="height:45px;margin-top:4px;"></textarea>
+        <button class="btn btn-secondary" id="btn-autofill" style="margin-top:6px" disabled>✨ Autofill Form</button>
+        <button class="btn btn-secondary" id="btn-save-profile" style="margin-top:4px">Save Profile</button>
+      </div>
+    </div>
+
+    <div class="btn-group" style="margin-top:8px">
+      <button class="btn btn-secondary" id="btn-open-options" style="font-size:11px">⚙️ Settings</button>
+    </div>
+
+    <div class="supported">Supported: <span>LinkedIn</span>, <span>Greenhouse</span>, <span>Lever</span>, <span>Workday</span></div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

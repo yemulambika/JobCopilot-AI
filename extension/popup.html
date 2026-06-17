@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>AI Job Assistant</title>
+  <style>
+    body { font-family: sans-serif; padding: 16px; width: 320px; }
+    h1 { font-size: 18px; margin-bottom: 8px; }
+    p { font-size: 13px; color: #555; }
+    button { background: #0a7cff; color: #fff; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; margin-top: 8px; width: 100%; }
+    button:hover { background: #005bb5; }
+    .status { margin-top: 12px; font-size: 13px; }
+    .error { color: #d00; }
+    .success { color: #080; }
+  </style>
+</head>
+<body>
+  <h1>🤖 AI Job Assistant</h1>
+  <p>Extracts job details from the current page and saves them to your account.</p>
+  <button id="extractBtn">📋 Extract & Save Job</button>
+  <div id="status" class="status"></div>
+  <script src="popup.js"></script>
+</body>
+</html>

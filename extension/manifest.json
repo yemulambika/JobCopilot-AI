@@ -1,0 +1,55 @@
+{
+  "manifest_version": 3,
+  "name": "AI Job Collector & Autofill Assistant",
+  "version": "1.0.0",
+  "description": "Safe AI assistant – extract jobs from pages you visit, analyze ATS match, and assist with autofill (never auto‑apply).",
+  "permissions": [
+    "storage",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "*://*.linkedin.com/*",
+    "*://*.naukri.com/*",
+    "*://*.wellfound.com/*",
+    "*://*.instahyre.com/*",
+    "*://*.cutshort.io/*",
+    "*://*.hirist.com/*",
+    "*://*.greenhouse.io/*",
+    "*://*.lever.co/*",
+    "*://*.myworkdayjobs.com/*",
+    "*://*.ycombinator.com/*",
+    "*://*.remoteok.com/*",
+    "*://*.weworkremotely.com/*",
+    "*://*.foundit.com/*",
+    "*://*.timesjobs.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.linkedin.com/*",
+        "*://*.naukri.com/*",
+        "*://*.wellfound.com/*",
+        "*://*.instahyre.com/*",
+        "*://*.cutshort.io/*",
+        "*://*.hirist.com/*",
+        "*://*.greenhouse.io/*",
+        "*://*.lever.co/*",
+        "*://*.myworkdayjobs.com/*",
+        "*://*.ycombinator.com/*",
+        "*://*.remoteok.com/*",
+        "*://*.weworkremotely.com/*",
+        "*://*.foundit.com/*",
+        "*://*.timesjobs.com/*"
+      ],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "AI Job Assistant"
+  }
+}
