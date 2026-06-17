@@ -2,7 +2,12 @@ const mongoose = require("mongoose");
 
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect(process.env.MONGODB_URI, {
+    const uri = process.env.MONGODB_URI || process.env.MONGO_URI;
+    if (!uri) {
+      console.error("MongoDB connection error: MONGODB_URI is not set. Please set it in your environment variables and redeploy.");
+      process.exit(1);
+    }
+    const conn = await mongoose.connect(uri, {
       // Mongoose 7+ doesn't need these options, but kept for clarity
     });
     console.log(`MongoDB connected: ${conn.connection.host}`);
@@ -13,3 +18,4 @@ const connectDB = async () => {
 };
 
 module.exports = connectDB;
+
