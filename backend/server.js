@@ -4,6 +4,14 @@ const cookieParser = require("cookie-parser");
 const path = require("path");
 require("dotenv").config();
 
+// Debug: show what env vars Render is loading
+console.log("ENV DEBUG:", {
+  MONGODB_URI: process.env.MONGODB_URI,
+  MONGO_URI: process.env.MONGO_URI,
+  JWT_SECRET: process.env.JWT_SECRET,
+  NODE_ENV: process.env.NODE_ENV,
+});
+
 const connectDB = require("./config/db");
 const resumeRoutes = require("./routes/resumeRoutes");
 const authRoutes = require("./routes/authRoutes");
