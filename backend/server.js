@@ -106,10 +106,7 @@ app.use("/api", resumeRoutes);
 /* Log routes after registration */
 listRoutes();
 
-// --- Error handling ---
-app.use(notFound);
-app.use(errorHandler);
-
+/* Health endpoints (must be before error handling) */
 app.get("/health", (req, res) => {
   res.status(200).json({ success: true, status: "ok" });
 });
@@ -117,6 +114,10 @@ app.get("/health", (req, res) => {
 app.get("/api/health", (req, res) => {
   res.status(200).json({ success: true, status: "ok" });
 });
+
+/* --- Error handling --- */
+app.use(notFound);
+app.use(errorHandler);
 
 // --- Start server ---
 const PORT = process.env.PORT || 5000;
