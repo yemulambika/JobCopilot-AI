@@ -52,27 +52,6 @@ connectDB()
   .then(() => console.log("MongoDB Connected"))
   .catch((err) => console.error("MongoDB Connection Error:", err));
 
-/* Register all routes for logging */
-const listRoutes = () => {
-  console.log("=== Registered Routes ===");
-  app._router.stack.forEach((middleware) => {
-    if (middleware.route) {
-      const methods = Object.keys(middleware.route.methods)
-        .map((m) => m.toUpperCase())
-        .join(", ");
-      console.log(`${methods} ${middleware.route.path}`);
-    } else if (middleware.name === "router") {
-      middleware.handle.stack.forEach((handler) => {
-        if (handler.route) {
-          const methods = Object.keys(handler.route.methods)
-            .map((m) => m.toUpperCase())
-            .join(", ");
-          console.log(`${methods} ${handler.route.path}`);
-        }
-      });
-    }
-  });
-};
 
 app.use((req, res, next) => {
   // Log CORS preflight requests
