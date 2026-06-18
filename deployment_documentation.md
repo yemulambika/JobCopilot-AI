@@ -21,8 +21,7 @@ docker-compose up -d
 ### c. Environment Variables
 Create `.env.production` in backend with:
 ```
-MONGODB_URI=mongodb://ambikayemul2001_db_user:r2h2XOpf6Kuu3ChB@ac-dn8tknq-shard-00-00.thloofe.mongodb.net:27017,ac-dn8tknq-shard-00-01.thloofe.mongodb.net:27017,ac-dn8tknq-shard-00-02.thloofe.mongodb.net:27017/JobCopilot?ssl=true&replicaSet=atlas-z4tnxk-shard-0&authSource=admin&appName=Cluster0
-PORT=5000
+MONGODB_URI=mongodb+srv://ambikayemul2001_db_user:r2h2XOpf6Kuu3ChB@cluster0.thloofe.mongodb.net/JobCopilot?appName=Cluster0
 NODE_ENV=production
 ```
 

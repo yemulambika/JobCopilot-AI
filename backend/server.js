@@ -103,8 +103,6 @@ app.use("/api/admin", adminRoutes);
 app.use("/api/mock-interview", mockInterviewRoutes);
 app.use("/api", resumeRoutes);
 
-/* Log routes after registration */
-listRoutes();
 
 /* Health endpoints (must be before error handling) */
 app.get("/health", (req, res) => {
