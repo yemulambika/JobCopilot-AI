@@ -13,7 +13,7 @@ export default defineConfig({
     port: 5173,
     proxy: {
       "/api": {
-        target: "https://jobcopilot-ai.onrender.com",
+        target: "https://ai-resume-backend-1i32.onrender.com",
         changeOrigin: true,
       },
     },
