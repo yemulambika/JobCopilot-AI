@@ -70,6 +70,10 @@ app.use("/api", resumeRoutes);
 app.use(notFound);
 app.use(errorHandler);
 
+app.get("/health", (req, res) => {
+  res.status(200).json({ status: "ok", message: "Backend is running" });
+});
+
 // --- Start server ---
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
