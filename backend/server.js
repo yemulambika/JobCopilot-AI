@@ -32,18 +32,13 @@ const { errorHandler, notFound } = require("./middleware/errorHandler");
 
 const app = express();
 
-// --- Connect to MongoDB ---
-connectDB();
-
 // --- Middleware ---
 app.use(
   cors({
     origin: [
-      process.env.CLIENT_URL || "http://localhost:5173",
+      "https://ai-resume-maker-ashen.vercel.app",  // Frontend URL
+      "http://localhost:5173",
       "http://localhost:3000",
-      "https://your-vercel-app.vercel.app",
-      "https://ai-resume-maker-ashen.vercel.app",
-      "https://ai-resume-backend-1i32.onrender.com",
     ],
     credentials: true,
   })
@@ -52,13 +47,8 @@ app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// --- Static uploads (for future use) ---
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-
-// --- Health check ---
-app.get("/api/health", (req, res) => {
-  res.json({ status: "ok", timestamp: new Date().toISOString() });
-});
+// --- Connect to MongoDB ---
+connectDB();
 
 // --- Routes ---
 app.use("/api/auth", authRoutes);
