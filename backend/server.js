@@ -48,9 +48,46 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // --- Connect to MongoDB ---
-connectDB();
+connectDB()
+  .then(() => console.log("MongoDB Connected"))
+  .catch((err) => console.error("MongoDB Connection Error:", err));
 
-// --- Routes ---
+/* Register all routes for logging */
+const listRoutes = () => {
+  console.log("=== Registered Routes ===");
+  app._router.stack.forEach((middleware) => {
+    if (middleware.route) {
+      const methods = Object.keys(middleware.route.methods)
+        .map((m) => m.toUpperCase())
+        .join(", ");
+      console.log(`${methods} ${middleware.route.path}`);
+    } else if (middleware.name === "router") {
+      middleware.handle.stack.forEach((handler) => {
+        if (handler.route) {
+          const methods = Object.keys(handler.route.methods)
+            .map((m) => m.toUpperCase())
+            .join(", ");
+          console.log(`${methods} ${handler.route.path}`);
+        }
+      });
+    }
+  });
+};
+
+app.use((req, res, next) => {
+  // Log CORS preflight requests
+  if (req.method === "OPTIONS") {
+    console.log(`CORS Preflight - ${req.method} ${req.path} Origin: ${req.headers.origin}`);
+  }
+  next();
+});
+
+app.use((req, res, next) => {
+  // Log all incoming requests
+  console.log(`Request - ${req.method} ${req.path}`);
+  next();
+});
+
 app.use("/api/auth", authRoutes);
 app.use("/api/ai", aiRoutes);
 app.use("/api/tailor", tailorRoutes);
@@ -66,12 +103,19 @@ app.use("/api/admin", adminRoutes);
 app.use("/api/mock-interview", mockInterviewRoutes);
 app.use("/api", resumeRoutes);
 
+/* Log routes after registration */
+listRoutes();
+
 // --- Error handling ---
 app.use(notFound);
 app.use(errorHandler);
 
 app.get("/health", (req, res) => {
-  res.status(200).json({ status: "ok", message: "Backend is running" });
+  res.status(200).json({ success: true, status: "ok" });
+});
+
+app.get("/api/health", (req, res) => {
+  res.status(200).json({ success: true, status: "ok" });
 });
 
 // --- Start server ---
